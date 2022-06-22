@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
 
-var speed = 10000
-var jPow = -350
+var speed = 7500
+var jPow = -250
 var gravity = 500
 var xMove = 0
 var vel = Vector2.ZERO
@@ -11,12 +11,27 @@ var grounded = false
 
 onready var coyote = get_node("Coyote")
 
+func _ready():
+	$Sprite.animation = "idle_1"
 
 func _process(_delta):
 	# Gets x axis value
 	xMove = Input.get_action_raw_strength("move_right") - Input.get_action_raw_strength("move_left")
 	if Input.is_action_just_pressed("jump"):
 		jump = true
+	
+	if !grounded:
+		$Sprite.animation = "jump_1"
+	else:
+		if xMove != 0:
+			$Sprite.animation = "run_1"
+		else:
+			$Sprite.animation = "idle_1"
+	
+	if vel.x < 0:
+		$Sprite.flip_h = true
+	if vel.x > 0:
+		$Sprite.flip_h = false
 
 func _physics_process(delta):
 	if jump:
