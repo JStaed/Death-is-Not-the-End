@@ -100,6 +100,7 @@ extents = Vector2( 5, 7 )
 extents = Vector2( 4.5, 1 )
 
 [node name="Player" type="KinematicBody2D"]
+collision_layer = 13
 script = ExtResource( 2 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
@@ -119,9 +120,5 @@ collision_mask = 2
 position = Vector2( -0.5, 8 )
 shape = SubResource( 2 )
 
-[node name="Coyote" type="Timer" parent="."]
-one_shot = true
-
 [connection signal="body_entered" from="GndDetection" to="." method="_on_ground"]
 [connection signal="body_exited" from="GndDetection" to="." method="_off_ground"]
-[connection signal="timeout" from="Coyote" to="." method="_coyote"]

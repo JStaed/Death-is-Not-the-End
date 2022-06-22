@@ -8,29 +8,49 @@ export(int, 0, 1) var player = 0
 
 var spawnPos = Vector2(0, 0)
 
+func _ready():
+	cams[0].position.y = 0
+
 func _process(_delta):
 	if Input.is_action_just_pressed("debug_switch"):
-		die()
+		_die()
 	if Input.is_action_just_pressed("reset"):
-		get_tree().reload_current_scene()
+		return get_tree().reload_current_scene()
 
-func die():
+func _die():
+	for p in players:
+		p.position.y = 2000
+		p.grounded = false
+		p.vel = Vector2.ZERO
+	cams[0].current = true
+	cams[1].current = false
+	if player == 0:
+		players[1].position = spawnPos + Vector2(0, -575)
+		cams[0].get_node("AnimationPlayer").play("Up")
+	else:
+		players[0].position = spawnPos + Vector2(0, 0)
+		cams[0].get_node("AnimationPlayer").play("Down")
+
+func _spawn_players(_anim):
 	for p in players:
 		p.grounded = false
-		p.velocity = Vector2.ZERO
-	
+		p.vel = Vector2.ZERO
+		p.xMove = 0
+		p.isActive = false
+
 	if player == 0:
-		players[1].position = spawnPos + Vector2(575, 0)
 		player = 1
+		players[0].position = spawnPos
+		players[1].grounded = true
 		players[0].isActive = false
 		players[1].isActive = true
 		cams[0].current = false
 		cams[1].current = true
 	else:
-		players[0].position = spawnPos
 		player = 0
+		players[1].position = spawnPos + Vector2(0, -575)
+		players[0].grounded = true
 		players[1].isActive = false
 		players[0].isActive = true
 		cams[1].current = false
 		cams[0].current = true
-	

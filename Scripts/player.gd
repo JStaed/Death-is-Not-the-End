@@ -19,7 +19,6 @@ var idleAnim = "idle_1"
 var runAnim = "run_1"
 var jumpAnim = "jump_1"
 
-onready var coyote = get_node("Coyote")
 onready var cam = get_node("../Camera1")
 
 func _ready():
@@ -64,11 +63,4 @@ func _on_ground(_body):
 	grounded = true
 
 func _off_ground(_body):
-	coyote.start(0.075)
-
-func _coyote():
-	coyote.stop()
-	if get_node("GndDetection").get_overlapping_bodies() == []:
-		grounded = false
-	else:
-		grounded = true
+	grounded = false
