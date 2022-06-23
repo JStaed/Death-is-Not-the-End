@@ -15,6 +15,7 @@ var vel = Vector2.ZERO
 var jump = false
 var grounded = false
 
+var dir = 1
 var idleAnim = "idle_1"
 var runAnim = "run_1"
 var jumpAnim = "jump_1"
@@ -35,6 +36,15 @@ func _process(_delta):
 		xMove = Input.get_action_raw_strength("move_right") - Input.get_action_raw_strength("move_left")
 		if Input.is_action_just_pressed("jump"):
 			jump = true
+		if dir < 0:
+			$Sprite.flip_h = true
+		if dir > 0:
+			$Sprite.flip_h = false
+	
+	if xMove > 0:
+		dir = 1
+	elif xMove< 0:
+		dir = -1
 	
 	if !grounded:
 		$Sprite.animation = jumpAnim
@@ -43,11 +53,6 @@ func _process(_delta):
 			$Sprite.animation = runAnim
 		else:
 			$Sprite.animation = idleAnim
-	
-	if vel.x < 0:
-		$Sprite.flip_h = true
-	if vel.x > 0:
-		$Sprite.flip_h = false
 
 func _physics_process(delta):
 	if jump:
@@ -55,7 +60,8 @@ func _physics_process(delta):
 		if grounded:
 			vel.y = JPOW
 	
-	vel.y += GRAVITY * delta
+	if !grounded:
+		vel.y += GRAVITY * delta
 	vel.x = lerp(vel.x, xMove * SPEED * delta, 0.2)
 	vel = move_and_slide(vel, Vector2(0, -1))
 
@@ -63,4 +69,7 @@ func _on_ground(_body):
 	grounded = true
 
 func _off_ground(_body):
-	grounded = false
+	if get_node("GndDetection").get_overlapping_bodies() == []:
+		grounded = false
+	else:
+		grounded = true

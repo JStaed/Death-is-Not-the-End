@@ -5,4 +5,5 @@ antialiased = false
 font_path = "res://Fonts/Perfect DOS VGA 437.ttf"
 
 [resource]
+extra_spacing_space = -4
 font_data = SubResource( 1 )

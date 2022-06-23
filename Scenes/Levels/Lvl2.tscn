@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Prefabs/PlayerController.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Prefabs/DeathPlane.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Prefabs/Portal.tscn" type="PackedScene" id=3]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Maps" type="Node2D" parent="."]
+
+[node name="Hell" type="Node2D" parent="Maps"]
+
+[node name="DeathPlane" parent="Maps/Hell" instance=ExtResource( 2 )]
+position = Vector2( 0, 92 )
+scale = Vector2( 23.28, 1 )
+
+[node name="Heaven" type="Node2D" parent="Maps"]
+
+[node name="DeathPlane" parent="Maps/Heaven" instance=ExtResource( 2 )]
+position = Vector2( 0, 92 )
+scale = Vector2( 23.28, 1 )
+
+[node name="Portal" parent="Maps/Heaven" instance=ExtResource( 3 )]
+position = Vector2( 44, -575 )
+variant = 1
+
+[node name="PlayerController" parent="." instance=ExtResource( 1 )]
+
+[editable path="PlayerController"]
