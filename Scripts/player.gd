@@ -31,6 +31,11 @@ func _ready():
 	$Sprite.animation = idleAnim
 
 func _process(_delta):
+	if get_node("GndDetection").get_overlapping_bodies() == []:
+		grounded = false
+	else:
+		grounded = true
+	
 	if isActive:
 		# Gets x axis value
 		xMove = Input.get_action_raw_strength("move_right") - Input.get_action_raw_strength("move_left")
@@ -43,7 +48,7 @@ func _process(_delta):
 	
 	if xMove > 0:
 		dir = 1
-	elif xMove< 0:
+	elif xMove < 0:
 		dir = -1
 	
 	if !grounded:
@@ -68,8 +73,3 @@ func _physics_process(delta):
 func _on_ground(_body):
 	grounded = true
 
-func _off_ground(_body):
-	if get_node("GndDetection").get_overlapping_bodies() == []:
-		grounded = false
-	else:
-		grounded = true

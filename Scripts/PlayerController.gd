@@ -6,9 +6,11 @@ onready var cams = [get_node("Camera1"), get_node("Camera2")]
 
 export(int, 0, 1) var player = 0
 
-var spawnPos = Vector2(0, 0)
+export var spawnPos = Vector2(0, 0)
 
 func _ready():
+	players[0].position = spawnPos
+	players[1].position = spawnPos + Vector2(0, -575)
 	cams[0].position.y = 0
 
 func _process(_delta):
@@ -28,7 +30,7 @@ func _die():
 		players[1].position = spawnPos + Vector2(0, -575)
 		cams[0].get_node("AnimationPlayer").play("Up")
 	else:
-		players[0].position = spawnPos + Vector2(0, 0)
+		players[0].position = spawnPos
 		cams[0].get_node("AnimationPlayer").play("Down")
 
 func _spawn_players(_anim):
@@ -41,16 +43,14 @@ func _spawn_players(_anim):
 	if player == 0:
 		player = 1
 		players[0].position = spawnPos
-		players[1].grounded = true
-		players[0].isActive = false
+		players[1].grounded = false
 		players[1].isActive = true
 		cams[0].current = false
 		cams[1].current = true
 	else:
 		player = 0
 		players[1].position = spawnPos + Vector2(0, -575)
-		players[0].grounded = true
-		players[1].isActive = false
+		players[0].grounded = false
 		players[0].isActive = true
 		cams[1].current = false
 		cams[0].current = true

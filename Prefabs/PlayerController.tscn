@@ -45,12 +45,23 @@ position = Vector2( 0, -575 )
 character = true
 
 [node name="Camera1" type="Camera2D" parent="."]
-position = Vector2( 0, -575 )
 current = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera1"]
 anims/Down = SubResource( 1 )
 anims/Up = SubResource( 2 )
 
+[node name="StaticBody2D" type="StaticBody2D" parent="Camera1"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Camera1/StaticBody2D"]
+polygon = PoolVector2Array( 162, 88, 161, -90, 161, -107, -162, -106, -162, 88, -173, 88, -174, -121, 175, -121, 174, 87 )
+
 [node name="Camera2" type="Camera2D" parent="."]
 position = Vector2( 0, -575 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Camera2"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Camera2/StaticBody2D"]
+polygon = PoolVector2Array( 162, 88, 161, -90, 161, -107, -162, -106, -162, 88, -173, 88, -174, -121, 175, -121, 174, 87 )
+
+[connection signal="animation_finished" from="Camera1/AnimationPlayer" to="." method="_spawn_players"]

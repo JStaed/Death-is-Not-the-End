@@ -38,3 +38,5 @@ animation = "door_1"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 4 )
+
+[connection signal="body_entered" from="." to="." method="_next_level"]
